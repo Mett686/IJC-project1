@@ -1,8 +1,7 @@
 // no-comment.c
-// Řešení IJC-DU1, příklad b), 24.2.2026
+// Řešení IJC-DU1, příklad b), 25.2.2026
 // Autor: Martin Knotek, FIT
 // Přeloženo: gcc version 15.2.1 20260123 (Red Hat 15.2.1-7) (GCC)
-
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -20,10 +19,47 @@ int main(int argc, char **argv) {
         if(!file) error_exit("Could not open file: %s\n", argv[1]);
     }
     
+    int state = 0;
     char c;
     while((c = fgetc(file)) != EOF) {
-        putchar(c);
+        switch(state) {
+            case 0: if(c == '/') state = 1;
+                    else {
+                        if(c == '"') {
+                            state = 5;
+                            putchar(c);
+                        }
+                        putchar(c);
+                    }
+                    break;
+            case 1: if(c == '/') state = 2;
+                    else if(c == '*') state = 3;
+                    else {
+                        state = 0;
+                        putchar('/');
+                        putchar(c);
+                    }
+                    break;
+            case 2: if(c == '\n') state = 0;
+                    break;
+            case 3: if(c == '*') state = 4;
+                    break;
+            case 4: if(c == '/') state = 0;
+                    else if(c != '*') state = 3;
+                    break;
+            case 5: if(c == '"') state = 0;
+                    else if(c == '\\') state = 6;
+                    putchar(c);
+                    break;
+            case 6: state = 5;
+                    putchar(c);
+                    break;
+            default:
+                putchar(c);
+                break;
+        }
     }
+    //dsjalkjsjsdlk;jlkj
     
     if(argc > 1) {
         putchar('\n');
@@ -32,3 +68,7 @@ int main(int argc, char **argv) {
     
     return EXIT_SUCCESS;
 }
+
+// test test test
+// "test test test \\\\bf\b\bb\b\b\"
+/*test test test*/
