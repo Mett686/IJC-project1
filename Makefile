@@ -8,7 +8,7 @@ all: no-comment clean
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-test: test.o error.o
+test: test.o
 	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
 	./test
 

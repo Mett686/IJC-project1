@@ -2,11 +2,11 @@
 // Řešení IJC-DU1, příklad b), 24.2.2026
 // Autor: Martin Knotek, FIT
 // Přeloženo: gcc version 15.2.1 20260123 (Red Hat 15.2.1-7) (GCC)
+// Dependencies: stdlib, stdio, stdarg
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdarg.h>
-#include "error.h"
 
 void warning(const char *fmt, ...) {
     va_list args;

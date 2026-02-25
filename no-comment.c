@@ -2,6 +2,8 @@
 // Řešení IJC-DU1, příklad b), 25.2.2026
 // Autor: Martin Knotek, FIT
 // Přeloženo: gcc version 15.2.1 20260123 (Red Hat 15.2.1-7) (GCC)
+// Spravne bere 1 argument, v pripade vice, zbyle ignoruje.
+// Zadani spatne adresy ukoncuje program.
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -10,7 +12,6 @@
 #define MAX_ARGC 2
 
 int main(int argc, char **argv) {
-    
     FILE *file = stdin;
     if(argc > 1) {
         if(argc > MAX_ARGC) warning("Too many arguments: %d of max %d\n", argc, MAX_ARGC);
@@ -59,16 +60,12 @@ int main(int argc, char **argv) {
                 break;
         }
     }
-    //dsjalkjsjsdlk;jlkj
     
-    if(argc > 1) {
-        putchar('\n');
-        fclose(file);
-    }
-    
+    if(argc > 1) fclose(file);
     return EXIT_SUCCESS;
 }
 
 // test test test
 // "test test test \\\\bf\b\bb\b\b\"
 /*test test test*/
+/***/

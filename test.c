@@ -1,6 +1,10 @@
-#include "error.h"
+#include <stdio.h>
+#include "bitarray.h"
 
 int main(void) {
-    warning("works? %d\n", 69);
-    error_exit("will it exit? %d\n", 67);
+    printf("%ld\n",sizeof(unsigned long));
+    bitarray_create(arr, 64);
+    printf("%lx", arr[1]);
+    bitarray_fill(arr, 1);
+    printf("%lx", arr[1]);
 }
