@@ -1,10 +1,11 @@
 #include <stdio.h>
+#include "eratosthenes.c"
 #include "bitarray.h"
 
 int main(void) {
-    printf("%ld\n",sizeof(unsigned long));
-    bitarray_create(arr, 64);
-    printf("%lx", arr[1]);
-    bitarray_fill(arr, 1);
-    printf("%lx", arr[1]);
+    bitarray_create(arr, 100);
+    Eratosthenes(arr);
+    for(unsigned long i = 0; i < bitarray_size(arr); i++) {
+        if(bitarray_getbit(arr, i)) printf("%lu\n", i);
+    }
 }
