@@ -3,21 +3,22 @@ CC = gcc
 CFLAGS = -g -std=c11 -pedantic -Wall -Wextra
 LDLIBS = -lm
 
-all: test clean
+all: no-comment clean
 	
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 test: test.o error.o
 	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
+	./test
 
 no-comment: no-comment.o error.o
 	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
 
 run: all
-	./test
+	./no-comment no-comment.c
 
 clean:
-	rm -f *.o
+	rm -f *.o test
 
 .PHONY: all run clean
