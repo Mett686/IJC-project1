@@ -8,7 +8,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "error.h"
-
 #define MAX_ARGC 2
 
 int main(int argc, char **argv) {
@@ -28,7 +27,6 @@ int main(int argc, char **argv) {
                     else {
                         if(c == '"') {
                             state = 5;
-                            putchar(c);
                         }
                         putchar(c);
                     }
@@ -41,11 +39,18 @@ int main(int argc, char **argv) {
                         putchar(c);
                     }
                     break;
-            case 2: if(c == '\n') state = 0;
+            case 2: if(c == '\n') {
+                        state = 0;
+                        putchar(c);
+                    }
+                    else if(c == '\\') state = 7;
                     break;
             case 3: if(c == '*') state = 4;
                     break;
-            case 4: if(c == '/') state = 0;
+            case 4: if(c == '/') {
+                    state = 0;
+                    putchar(' ');
+                    }
                     else if(c != '*') state = 3;
                     break;
             case 5: if(c == '"') state = 0;
@@ -54,6 +59,8 @@ int main(int argc, char **argv) {
                     break;
             case 6: state = 5;
                     putchar(c);
+                    break;
+            case 7: state = 2;
                     break;
             default:
                 putchar(c);
@@ -64,8 +71,3 @@ int main(int argc, char **argv) {
     if(argc > 1) fclose(file);
     return EXIT_SUCCESS;
 }
-
-// test test test
-// "test test test \\\\bf\b\bb\b\b\"
-/*test test test*/
-/***/

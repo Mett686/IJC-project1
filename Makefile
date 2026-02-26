@@ -19,9 +19,9 @@ run: all
 	./no-comment no-comment.c
 
 clean:
-	rm -f *.o test
+	rm -f *.o test out.c
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-.PHONY: all run clean
+.PHONY: all run clean test
