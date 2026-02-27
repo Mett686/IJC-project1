@@ -1,22 +1,25 @@
-#include <stdlib.h>
+#ifdef USE_INLINE
 #include "bitarray.h"
 
-void bitarray_free(bitarray_t arr) {
-    free(arr);
-}
+// Frees allocated array (function)
+extern inline void bitarray_free(bitarray_t arr);
 
-bitarray_index_t bitarray_getsize(bitarray_t arr) {
-    return arr[0];
-}
+// Returns size of array in bits (function)
+extern inline bitarray_index_t bitarray_size(bitarray_t arr);
 
-void bitarray_fill(bitarray_t arr, bool value) {
-    for(bitarray_index_t i = 1; i < ((name[0])+2*UL_BITS-1)/UL_BITS; i++) {
-    name[i] = value ? ~0UL : 0UL;
-    }
-}
+// Sets all bits in array to <value> (function)
+extern inline void bitarray_fill(bitarray_t arr, bool value);
 
-void bitarray_setbit(bitarray_t arr, bitarray_index_t index, bool value) {
-    bita
-    arr[(index)/UL_BITS+1] = value ?
-    arr[(index)/UL_BITS+1] | bit_mask(index) : arr[index/UL_BITS+1] & ~bit_mask(index);
-}
+// Create bitmask for given index, with respect to UL size (function)
+extern inline bitarray_index_t bit_mask(bitarray_index_t index);
+
+// Sets bit on <index> to <value> (function)
+extern inline void bitarray_setbit(bitarray_t arr, bitarray_index_t index, bool value);
+
+// Get value of bit on <index> (function)
+extern inline bool bitarray_getbit(bitarray_t arr, bitarray_index_t index);
+
+// Exits the program if given index is out of range (function)
+extern inline void check_range(bitarray_t arr, bitarray_index_t index);
+
+#endif

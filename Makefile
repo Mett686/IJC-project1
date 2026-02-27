@@ -5,8 +5,8 @@ LDLIBS = -lm
 
 all: no-comment primes clean
 
-test: test.o
-	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
+test: test.o error.o eratosthenes.o
+	$(CC) $(CFLAGS) -DUSE_INLINE -DNO_CHECK -o  $@ $^ $(LDLIBS)
 	./test
 
 primes: primes.o eratosthenes.o
