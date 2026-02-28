@@ -49,30 +49,30 @@ typedef bitarray_index_t* bitarray_t;
 
 // Sets bit on <index> to <value>
 #define bitarray_setbit(name, index, value) \
-    check_range(name, index), \
-    name[index/UL_BITS+1] = \
+    check_range((name), (index)); \
+    name[(index)/UL_BITS+1] = \
     value ? \
-    name[index/UL_BITS+1] | bit_mask(index) : \
-    name[index/UL_BITS+1] & ~bit_mask(index)
+    name[(index)/UL_BITS+1] | bit_mask(index) : \
+    name[(index)/UL_BITS+1] & ~bit_mask(index)
 
 // Get value of bit on <index>
 #define bitarray_getbit(name, index) \
-    check_range(name, index), \
-    (bit_mask(index) & name[index/UL_BITS+1]) == \
-    bit_mask(index)
+    (check_range((name), (index)), bit_mask(index)) == \
+    (bit_mask(index) & name[index/UL_BITS+1])
+    
 
 #ifndef NO_CHECK
     // Exits the program if given index is out of range
     #define check_range(name, index) \
-        ( index >= name[0] ? \
+        ( ((index) >= (name)[0]) ? \
         (error_exit("bitarray_getbit: Index %lu mimo rozsah 0..%lu", \
-            (bitarray_index_t)index, (bitarray_index_t)name[0]), 0) \
-        : 0 )
+        (bitarray_index_t)(index), (bitarray_index_t)(name)[0]), (void)0) \
+        : (void)0 )
 
 #else
     // Check range disabled
-    #define check_range(name, index)
-
+    #define check_range(name, index) \
+        ((void)0)
 #endif
 #endif
 
