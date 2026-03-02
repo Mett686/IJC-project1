@@ -21,10 +21,12 @@ typedef bitarray_index_t* bitarray_t;
 
 // Initializes array of <size> bits
 #define bitarray_create(name, size) \
-    bitarray_index_t name[((size)+2*UL_BITS-1)/UL_BITS] = {size, 0}
+    ( (void)static_assert(size > 0,"bitarray_create: Chyba alokace paměti"), \
+    bitarray_index_t name[((size)+2*UL_BITS-1)/UL_BITS] = {size, 0} )
 
 // Allocates array of <size> bits
 #define bitarray_alloc(name, size) \
+    static_assert(size > 0,"bitarray_alloc: Chyba alokace paměti"); \
     bitarray_t name = \
     calloc(((size)+2*UL_BITS-1)/UL_BITS, sizeof(bitarray_index_t)); \
     name[0] = size;

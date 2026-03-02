@@ -1,5 +1,5 @@
-// bitarray.h
-// Řešení IJC-DU1, příklad a), 26.2.2026
+// primes.c
+// Řešení IJC-DU1, příklad a), 2.3.2026
 // Autor: Martin Knotek, FIT
 // Přeloženo: gcc version 15.2.1 20260123 (Red Hat 15.2.1-7) (GCC)
 
@@ -8,9 +8,10 @@
 #include "eratosthenes.h"
 #include "bitarray.h"
 
+// Size of array
 #define N 444000000
+// Number of biggest primes to display
 #define P 10
-
 
 int main(void) {
     bitarray_alloc(bitarray, N);
