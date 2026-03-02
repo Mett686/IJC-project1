@@ -1,6 +1,6 @@
 export LC_ALL = cs_CZ.utf8
 CC = gcc
-CFLAGS = -g -std=c11 -pedantic -Wall -Wextra -DNO_CHECK
+CFLAGS = -g -std=c11 -pedantic -Wall -Wextra
 LDLIBS = -lm
 
 all: primes primes-i

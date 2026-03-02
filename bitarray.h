@@ -8,6 +8,7 @@
 
 #include <stdlib.h>
 #include <stdbool.h>
+#include <assert.h>
 #include "error.h"
 
 typedef unsigned long bitarray_index_t;
