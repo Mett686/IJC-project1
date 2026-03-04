@@ -15,7 +15,7 @@ typedef unsigned long bitarray_index_t;
 
 typedef bitarray_index_t* bitarray_t;
 
-// Number of bits inside single element (unsigned long) inside bitarray
+// Number of bits in unsigned long
 #define UL_BITS \
     (sizeof(bitarray_index_t)*__CHAR_BIT__)
 
@@ -73,7 +73,7 @@ typedef bitarray_index_t* bitarray_t;
         : (void)0 )
 
 #else
-    // Check range disabled
+    // check_range disabled
     #define check_range(name, index) \
         ((void)0)
 #endif
