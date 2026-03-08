@@ -25,14 +25,13 @@ int main(int argc, char **argv) {
         switch(state) {
             case 0: if(c == '/') state = 1;
                     else {
-                        if(c == '"') {
-                            state = 5;
-                        }
+                        if(c == '"') state = 6;
+                        else if(c == '\'') state = 8;
                         putchar(c);
                     }
                     break;
             case 1: if(c == '/') state = 2;
-                    else if(c == '*') state = 3;
+                    else if(c == '*') state = 4;
                     else {
                         state = 0;
                         putchar('/');
@@ -43,24 +42,31 @@ int main(int argc, char **argv) {
                         state = 0;
                         putchar(c);
                     }
-                    else if(c == '\\') state = 7;
+                    else if(c == '\\') state = 3;
                     break;
-            case 3: if(c == '*') state = 4;
+            case 3: state = 2;
                     break;
-            case 4: if(c == '/') {
-                    state = 0;
-                    putchar(' ');
+            case 4: if(c == '*') state = 5;
+                    break;
+            case 5: if(c == '/') {
+                        state = 0;
+                        putchar(' ');
                     }
-                    else if(c != '*') state = 3;
+                    else if(c == '\\') putchar('\n');
                     break;
-            case 5: if(c == '"') state = 0;
-                    else if(c == '\\') state = 6;
+            case 6: if(c == '"') state = 0;
+                    else if(c == '\\') state = 7;
                     putchar(c);
                     break;
-            case 6: state = 5;
+            case 7: state = 6;
                     putchar(c);
                     break;
-            case 7: state = 2;
+            case 8: if(c == '\'') state = 0;
+                    else if(c == '\\') state = 9;
+                    putchar(c);
+                    break;
+            case 9: state = 8;
+                    putchar(c);
                     break;
             default:
                 putchar(c);
@@ -69,5 +75,9 @@ int main(int argc, char **argv) {
     }
     
     if(argc > 1) fclose(file);
+    if(state != 0) {
+        error_exit("Input file ended inside comment or string\n");
+    }
+
     return EXIT_SUCCESS;
 }
