@@ -1,5 +1,5 @@
 // bitarray.h
-// Řešení IJC-DU1, příklad a), 26.2.2026
+// Řešení IJC-DU1, příklad a), 10.3.2026
 // Autor: Martin Knotek, FIT
 // Přeloženo: gcc version 15.2.1 20260123 (Red Hat 15.2.1-7) (GCC)
 
@@ -56,7 +56,7 @@ typedef bitarray_index_t* bitarray_t;
     name[(index)/UL_BITS+1] = \
     value ? \
     name[(index)/UL_BITS+1] | bit_mask(index) : \
-    name[(index)/UL_BITS+1] & ~bit_mask(index)
+    name[(index)/UL_BITS+1] & ~bit_mask(index);
 
 // Get value of bit on <index>
 #define bitarray_getbit(name, index) \
