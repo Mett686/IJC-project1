@@ -2,13 +2,14 @@ export LC_ALL = cs_CZ.utf8
 CC = gcc
 CFLAGS = -g -std=c11 -pedantic -Wall -Wextra
 LDLIBS = -lm
+xlogin = xknotem00
 
 all: primes primes-i no-comment
 	make clean
 
-run: all
-	./primes
-	./primes-i
+run:
+	ulimit -s unlimited && ./primes
+	ulimit -s unlimited && ./primes-i
 
 primes: primes.o eratosthenes.o error.o
 	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
@@ -24,5 +25,8 @@ clean:
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
+
+zip:
+	zip $(xlogin).zip *.c *.h Makefile
 
 .PHONY: all run clean

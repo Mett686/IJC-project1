@@ -1,5 +1,5 @@
 // primes.c
-// Řešení IJC-DU1, příklad a), 2.3.2026
+// Řešení IJC-DU1, příklad a), 10.3.2026
 // Autor: Martin Knotek, FIT
 // Přeloženo: gcc version 15.2.1 20260123 (Red Hat 15.2.1-7) (GCC)
 
@@ -14,7 +14,7 @@
 #define P 10
 
 int main(void) {
-    bitarray_alloc(bitarray, N);
+    bitarray_create(bitarray, N);
     
     clock_t start = clock();
     Eratosthenes(bitarray);
@@ -30,7 +30,7 @@ int main(void) {
         }
         j--;
     }
-    bitarray_free(bitarray);
+
     for(int i = 0; i < P; i++) {
         printf("%lu\n", primes[i]);
     }
