@@ -6,17 +6,17 @@ xlogin = xknotem00
 
 all: primes primes-i no-comment
 
-run:
+run: all
 	ulimit -s unlimited && ./primes
 	ulimit -s unlimited && ./primes-i
 
-primes: primes.o eratosthenes.o error.o
+primes: primes.o eratosthenes.o error.o bitarray.h eratosthenes.h error.h
 	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
 
-primes-i: primes.o eratosthenes.o error.o
+primes-i: primes.o eratosthenes.o error.o bitarray.h eratosthenes.h error.h
 	$(CC) $(CFLAGS) -DUSE_INLINE -o $@ $^ $(LDLIBS)
 
-no-comment: no-comment.o error.o
+no-comment: no-comment.o error.o error.h
 	$(CC) $(CFLAGS) -D_POSIX_C_SOURCE -o $@ $^
 
 clean:

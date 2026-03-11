@@ -4,6 +4,7 @@
 // Přeloženo: gcc version 15.2.1 20260123 (Red Hat 15.2.1-7) (GCC)
 // bitarray_t je pole unsigned long ke kteremu se chovame
 // jako k poli bitu ve kterem pole[0] je velikost pole v bitech
+// 
 
 #ifndef BITARRAY_H
 #define BITARRAY_H
@@ -53,19 +54,19 @@ typedef bitarray_index_t* bitarray_t;
 
 // Create bitmask for given index, with respect to UL size
 #define bit_mask(index) \
-    (1UL << (UL_BITS - ((index) % UL_BITS) - 1))
+    (1UL << ((index) % UL_BITS))
 
 // Sets bit on <index> to <value>
 #define bitarray_setbit(name, index, value) \
-    check_range((name), (index)); \
-    name[(index)/UL_BITS+1] = \
+    name[(index)/UL_BITS+1] = ( \
+    check_range(name, index), \
     value ? \
     name[(index)/UL_BITS+1] | bit_mask(index) : \
-    name[(index)/UL_BITS+1] & ~bit_mask(index);
+    name[(index)/UL_BITS+1] & ~bit_mask(index));
 
 // Get value of bit on <index>
 #define bitarray_getbit(name, index) \
-    ((check_range((name), (index)), bit_mask(index)) == \
+    (check_range((name), (index)),\
     (bit_mask(index) & name[index/UL_BITS+1]))
     
 
@@ -106,7 +107,7 @@ inline void bitarray_fill(bitarray_t arr, bool value) {
 
 // Create bitmask for given index, with respect to UL size (function)
 inline bitarray_index_t bit_mask(bitarray_index_t index) {
-    return 1UL << (UL_BITS - (index % UL_BITS) - 1);
+    return 1UL << (index % UL_BITS);
 }
 
 // Sets bit on <index> to <value> (function)
