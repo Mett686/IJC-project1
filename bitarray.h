@@ -89,14 +89,14 @@ typedef bitarray_index_t* bitarray_t;
 #ifndef NO_CHECK
   // Exits the program if given index is out of range (function)
   inline void check_range(bitarray_t arr, bitarray_index_t index) {
-    if(index > arr[0]) {
-      char *fmt = "bitarray_getbit: Index %lu mimo rozsah 0..%lu\n";
-      error_exit(fmt, index, arr[0]);
-    }
+    if(index >= arr[0]) error_exit("bitarray_getbit: Index %lu mimo rozsah 0..%lu\n", index, arr[0]);
   }
 #else
 
-  inline void check_range(bitarray_t arr, bitarray_index_t index);;
+  inline void check_range(bitarray_t arr, bitarray_index_t index) {
+    (void)arr;
+    (void)index;
+  }
 #endif
 
 // Frees allocated array (function)
@@ -111,10 +111,8 @@ inline bitarray_index_t bitarray_size(bitarray_t arr) {
 
 // Sets all bits in array to <value> (function)
 inline void bitarray_fill(bitarray_t arr, bool value) {
-  bitarray_index_t num = value ? ~0UL : 0UL;
-  for(unsigned int i = 1; i < ((arr[0])+UL_BITS-1)/UL_BITS; i++) {
-    arr[i] = num;
-  }
+  for(unsigned int i = 1; i < (((arr[0])+2*UL_BITS-1)/UL_BITS); i++) \
+    arr[i] = value ? ~0UL : 0UL;
 }
 
 // Create bitmask for given index, with respect to UL size (function)
@@ -125,17 +123,17 @@ inline bitarray_index_t bit_mask(bitarray_index_t index) {
 // Sets bit on <index> to <value> (function)
 inline void bitarray_setbit(bitarray_t arr, bitarray_index_t index, bool value) {
   check_range(arr, index);
-  bitarray_index_t num = arr[index/UL_BITS+1];
   bitarray_index_t mask = bit_mask(index);
-  arr[index / UL_BITS+1] = value ? num | mask : num & ~mask;
+  if(value) \
+    arr[(index / UL_BITS)+1] |=  mask;
+  else \
+    arr[(index / UL_BITS)+1] &= ~mask;
 }
 
 // Get value of bit on <index> (function)
 inline bool bitarray_getbit(bitarray_t arr, bitarray_index_t index) {
   check_range(arr, index);
-  bitarray_index_t num = arr[index/UL_BITS+1];
-  bitarray_index_t mask = bit_mask(index);
-  return num && mask;
+  return arr[(index/UL_BITS)+1] & bit_mask(index);
 }
 
 #endif
