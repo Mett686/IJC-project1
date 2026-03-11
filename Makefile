@@ -1,31 +1,39 @@
 export LC_ALL = cs_CZ.utf8
 CC = gcc
-CFLAGS = -g -std=c11 -pedantic -Wall -Wextra
+CFLAGS = -g -std=c11 -pedantic -Wall -Wextra -MMD -MP
 LDLIBS = -lm
+
+SRCS = primes.c eratosthenes.c bitarray.c error.c
+OBJS = $(SRCS:.c=.o)
+TARGETS = primes primes-i no-comment
+
 xlogin = xknotem00
 
-all: primes primes-i no-comment
+all: $(TARGETS)
 
-run: all
-	ulimit -s unlimited && ./primes
-	ulimit -s unlimited && ./primes-i
+-include $(OBJS:.o=.d)
 
-primes: primes.o eratosthenes.o error.o bitarray.h eratosthenes.h error.h
-	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
+primes: primes.c eratosthenes.c error.c
+	$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 
-primes-i: primes.o eratosthenes.o error.o bitarray.h eratosthenes.h error.h
-	$(CC) $(CFLAGS) -DUSE_INLINE -o $@ $^ $(LDLIBS)
+primes-i: primes.c eratosthenes.c error.c bitarray.c
+	$(CC) $(CFLAGS) -DUSE_INLINE $^ -o $@ $(LDLIBS)
 
-no-comment: no-comment.o error.o error.h
-	$(CC) $(CFLAGS) -D_POSIX_C_SOURCE -o $@ $^
-
-clean:
-	rm -f *.o
+no-comment: no-comment.o error.o
+	$(CC) $(CFLAGS) -D_POSIX_C_SOURCE $^ -o $@
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
+
+run:
+	ulimit -s unlimited && ./primes
+	ulimit -s unlimited && ./primes-i
+
+clean:
+	rm -f *.o *.d $(TARGETS) $(xlogin).zip
+
 zip:
 	zip $(xlogin).zip *.c *.h Makefile
 
-.PHONY: all run clean
+.PHONY: all run clean zip primes*
