@@ -7,18 +7,34 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <sys/stat.h>
+#include <unistd.h>
 #include "error.h"
 #define MAX_ARGC 2
 
 int main(int argc, char **argv) {
     FILE *file = stdin;
+    
+    // Arguments check
     if(argc > 1) {
         if(argc > MAX_ARGC) warning("Too many arguments: %d of max %d\n", argc, MAX_ARGC);
 
         file = fopen(argv[1], "r");
         if(!file) error_exit("Could not open file: %s\n", argv[1]);
+
+        // Check for invalid pipe
+        struct stat f_in;
+        struct stat f_out;
+        if(stat(argv[1], &f_in)) {
+            warning("stat: failed to get %s info\n", argv[1]);
+        }
+        if(fstat(STDOUT_FILENO, &f_out)) {
+            warning("fstat: failed to get stdout info\n");
+        }
+        if(f_in.st_dev == f_out.st_dev && f_in.st_ino == f_out.st_ino) {
+            error_exit("stdout redirected to input file\n");
+        }
     }
-    
     int state = 0;
     char c;
     while((c = fgetc(file)) != EOF) {
@@ -75,7 +91,7 @@ int main(int argc, char **argv) {
     }
     
     if(argc > 1) fclose(file);
-    if(state != 0) {
+    if(state != 0 && state != 2) {
         error_exit("Input file ended inside comment or string\n");
     }
 

@@ -5,7 +5,6 @@ LDLIBS = -lm
 xlogin = xknotem00
 
 all: primes primes-i no-comment
-	make clean
 
 run:
 	ulimit -s unlimited && ./primes
@@ -18,7 +17,7 @@ primes-i: primes.o eratosthenes.o error.o
 	$(CC) $(CFLAGS) -DUSE_INLINE -o $@ $^ $(LDLIBS)
 
 no-comment: no-comment.o error.o
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) -D_POSIX_C_SOURCE -o $@ $^
 
 clean:
 	rm -f *.o

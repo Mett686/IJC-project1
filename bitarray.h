@@ -1,7 +1,9 @@
 // bitarray.h
-// Řešení IJC-DU1, příklad a), 10.3.2026
+// Řešení IJC-DU1, příklad a), 11.3.2026
 // Autor: Martin Knotek, FIT
 // Přeloženo: gcc version 15.2.1 20260123 (Red Hat 15.2.1-7) (GCC)
+// bitarray_t je pole unsigned long ke kteremu se chovame
+// jako k poli bitu ve kterem pole[0] je velikost pole v bitech
 
 #ifndef BITARRAY_H
 #define BITARRAY_H
@@ -21,12 +23,12 @@ typedef bitarray_index_t* bitarray_t;
 
 // Initializes array of <size> bits
 #define bitarray_create(name, size) \
-    static_assert(size > 0); \
+    static_assert((size <= ~0UL) && (size > 0)); \
     bitarray_index_t name[((size)+2*UL_BITS-1)/UL_BITS] = {size, 0};
 
 // Allocates array of <size> bits
 #define bitarray_alloc(name, size) \
-    assert(size < 1`000`000`000UL); \
+    assert((size <= 1UL<<(UL_BITS-1)) && size > 0); \
     bitarray_t name = \
     calloc(((size)+2*UL_BITS-1)/UL_BITS, sizeof(bitarray_index_t)); \
     if (!name) { \
