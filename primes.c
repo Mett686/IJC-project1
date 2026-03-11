@@ -14,28 +14,28 @@
 #define P 10
 
 int main(void) {
-    clock_t start = clock();
+  clock_t start = clock();
+
+  bitarray_create(bitarray, N);
+  Eratosthenes(bitarray);
   
-    bitarray_create(bitarray, N);
-    Eratosthenes(bitarray);
-    
-    unsigned int i = (P) - 1;
-    unsigned long j = (N) - 1;
-    bitarray_index_t primes[P];
-    // Write from end to primes array end,
-    // stop after i overflows (primes is full)
-    while(i < P) {
-        if(bitarray_getbit(bitarray, j)) {
-            primes[i] = j;
-            i--;
-        }
-        j--;
+  unsigned int i = (P) - 1;
+  unsigned long j = (N) - 1;
+  bitarray_index_t primes[P];
+  // Write from end to primes array end,
+  // stop after i overflows (primes is full)
+  while(i < P) {
+    if(bitarray_getbit(bitarray, j)) {
+      primes[i] = j;
+      i--;
     }
-    
-    for(int i = 0; i < P; i++) {
-        printf("%lu\n", primes[i]);
-    }
-    
-    fprintf(stderr, "Time=%.3g\n", (double)(clock()-start)/CLOCKS_PER_SEC);
-    return EXIT_SUCCESS;
+    j--;
+  }
+  
+  for(int i = 0; i < P; i++) {
+    printf("%lu\n", primes[i]);
+  }
+  
+  fprintf(stderr, "Time=%.3g\n", (double)(clock()-start)/CLOCKS_PER_SEC);
+  return EXIT_SUCCESS;
 }
