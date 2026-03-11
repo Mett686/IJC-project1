@@ -1,6 +1,6 @@
 xknotem00.zip
 *.o
+*.b
 primes
 primes-i
 no-comment
-.vscode
