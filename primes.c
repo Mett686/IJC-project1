@@ -18,21 +18,21 @@ int main(void) {
 
   bitarray_create(bitarray, N);
   Eratosthenes(bitarray);
-  
-  unsigned int i = (P) - 1;
-  unsigned long j = (N) - 1;
+
+  // Fill primes array with P number of biggest primes in ascending order
   bitarray_index_t primes[P];
-  // Write from end to primes array end,
-  // stop after i overflows (primes is full)
+  
+  unsigned int i = 0;
+  unsigned long j = (N) - 1;
   while(i < P) {
     if(bitarray_getbit(bitarray, j)) {
-      primes[i] = j;
-      i--;
+      primes[P-1-i] = j;
+      i++;
     }
     j--;
   }
-  
-  for(int i = 0; i < P; i++) {
+
+  for(unsigned int i = 0; i < P; i++) {
     printf("%lu\n", primes[i]);
   }
   
