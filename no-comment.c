@@ -74,7 +74,11 @@ int main(int argc, char **argv) {
           state = 0;
           putchar(' ');
         }
-        else if(c == '\\') putchar('\n');
+        else if(c == '*') {
+          state = 5;
+        } else {
+          state = 4;
+        }
         break;
       case 6: \
         if(c == '"') state = 0;

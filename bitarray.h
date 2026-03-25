@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <assert.h>
+#include <string.h>
 #include "error.h"
 
 typedef unsigned long bitarray_index_t;
@@ -48,8 +49,7 @@ typedef bitarray_index_t* bitarray_t;
 
 // Sets all bits in array to <value>
 #define bitarray_fill(name, value) \
-  for(unsigned int i = 1; i < (((name[0])+2*UL_BITS-1)/UL_BITS); i++) \
-  name[i] = value ? ~0UL : 0UL;
+  memset(&name[1], ((value) ? 0xFF : 0), ((name[0]/8)+1))
 
 // Create bitmask for given index, with respect to UL size
 #define bit_mask(index) \
