@@ -66,8 +66,7 @@ typedef bitarray_index_t* bitarray_t;
 // Get value of bit on <index>
 #define bitarray_getbit(name, index) \
   (check_range((name), (index)),\
-  (bit_mask(index) & name[index/UL_BITS+1]))
-
+  (bit_mask(index) & name[index/UL_BITS+1]) == bit_mask(index))
 
 #ifndef NO_CHECK
   // Exits the program if given index is out of range
